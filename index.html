@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interação com Emoji</title>
+    <title>Desafio de Toque para Celular</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,49 +12,63 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #f7f7f7;
             flex-direction: column;
+            text-align: center;
         }
-        .emoji-display {
-            font-size: 100px;
+        h1 {
+            font-size: 32px;
+            color: #333;
             margin-bottom: 20px;
-            transition: transform 0.3s ease;
+        }
+        .message {
+            font-size: 22px;
+            margin-bottom: 20px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 20px;
+            padding: 20px 40px;
+            font-size: 24px;
             cursor: pointer;
             border: none;
             background-color: #3498db;
             color: white;
-            border-radius: 5px;
+            border-radius: 10px;
             margin: 10px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #2980b9;
+        }
+        button:active {
+            background-color: #1c5984;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            .message {
+                font-size: 20px;
+            }
+            button {
+                padding: 18px 35px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="emoji-display" id="emojiDisplay">😀</div>
-    <button onclick="changeEmoji()">Mudar Emoji</button>
-    <button onclick="rotateEmoji()">Girar Emoji</button>
+    <h1>Desafio de Toque</h1>
+    <div class="message" id="message">Toque no botão para interagir!</div>
+    <button onclick="touchChallenge()">Toque aqui!</button>
 
     <script>
-        const emojis = ['😀', '😎', '😍', '🤔', '😜', '😇', '🥳', '😴'];
-
-        function changeEmoji() {
-            const randomIndex = Math.floor(Math.random() * emojis.length);
-            document.getElementById('emojiDisplay').textContent = emojis[randomIndex];
-        }
-
-        function rotateEmoji() {
-            const emoji = document.getElementById('emojiDisplay');
-            emoji.style.transform = 'rotate(180deg)';
+        function touchChallenge() {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = "Você tocou no botão! Toque novamente!";
             setTimeout(() => {
-                emoji.style.transform = 'rotate(0deg)';
-            }, 300);
+                messageElement.textContent = "Toque no botão para interagir!";
+            }, 2000);
         }
     </script>
 
