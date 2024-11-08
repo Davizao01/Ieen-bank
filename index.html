@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio de Toque para Celular</title>
+    <title>Interação Responsiva</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -58,16 +58,16 @@
 </head>
 <body>
 
-    <h1>Desafio de Toque</h1>
-    <div class="message" id="message">Toque no botão para interagir!</div>
-    <button onclick="touchChallenge()">Toque aqui!</button>
+    <h1>Interação Responsiva</h1>
+    <div class="message" id="message">Clique ou toque no botão para interagir!</div>
+    <button onclick="touchChallenge()">Clique ou toque aqui!</button>
 
     <script>
         function touchChallenge() {
             const messageElement = document.getElementById('message');
-            messageElement.textContent = "Você tocou no botão! Toque novamente!";
+            messageElement.textContent = "Você clicou ou tocou no botão! Toque ou clique novamente!";
             setTimeout(() => {
-                messageElement.textContent = "Toque no botão para interagir!";
+                messageElement.textContent = "Clique ou toque no botão para interagir!";
             }, 2000);
         }
     </script>
