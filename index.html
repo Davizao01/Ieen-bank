@@ -3,132 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interdimensional Gateway</title>
+    <title>Simple Page</title>
     <style>
         body {
-            background-color: #1e2a47;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
             text-align: center;
-            position: relative;
+            padding: 50px;
         }
-
-        .text {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
-            color: #00e5ff;
+        h1 {
+            color: #4CAF50;
         }
-
-        .button {
-            background: #e91e63;
-            color: white;
-            font-size: 1.6rem;
-            border: none;
-            padding: 20px 40px;
-            border-radius: 12px;
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, background 0.3s ease;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-
-        .button:hover {
-            background: #ff4081;
-            transform: translateY(-5px);
-        }
-
-        .button:active {
-            background: #f50057;
-            transform: translateY(3px);
-        }
-
-        .pulse {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(0, 255, 255, 0.2);
-            animation: pulse 1.5s infinite;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 0.2;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 1.2rem;
-            color: #cfcfcf;
-        }
-
-        .footer a {
-            color: #00e5ff;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .text {
-                font-size: 1.8rem;
-            }
-
-            .button {
-                font-size: 1.4rem;
-                padding: 15px 30px;
-            }
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="text">Welcome to the Interdimensional Gateway</div>
-        <button class="button" onclick="activatePortal()">Open the Portal</button>
-        <div class="pulse"></div>
-    </div>
-    <div class="footer">
-        <p>Explore new dimensions at <a href="https://www.example.com" target="_blank">Example Site</a></p>
-    </div>
 
-    <script>
-        function activatePortal() {
-            const messages = [
-                "Portal opened! Enter the unknown.",
-                "Dimensional shift initiated.",
-                "You've crossed into another realm!",
-                "Prepare for infinite possibilities!",
-                "Time-space continuum altered!"
-            ];
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            alert(randomMessage);
-        }
-    </script>
+    <h1>Welcome to My Simple Page</h1>
+    <p>This is a very simple webpage with a button that changes color when you hover over it.</p>
+    
+    <button onclick="alert('Button clicked!')">Click Me</button>
+
 </body>
 </html>
