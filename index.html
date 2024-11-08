@@ -3,214 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Mega Aleatório</title>
+    <title>Relógio Digital Interativo</title>
     <style>
-        /* Estilos globais */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
+            font-family: 'Arial', sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
         }
-
-        h1, h2 {
-            color: #333;
+        .clock {
+            background-color: #000;
+            color: #0f0;
+            font-size: 60px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-
-        /* Estilos para o contador */
-        .counter-container {
-            text-align: center;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .counter {
-            font-size: 48px;
-            color: #333;
-            margin: 20px 0;
-        }
-
-        .button {
+        button {
             background-color: #3498db;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
+            color: white;
+            padding: 15px;
             font-size: 16px;
+            border: none;
+            border-radius: 10px;
             cursor: pointer;
-            border-radius: 8px;
+            margin-top: 20px;
         }
-
-        .button:hover {
+        button:hover {
             background-color: #2980b9;
         }
-
-        /* Estilos para a galeria */
-        .gallery-item {
-            margin: 10px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item img {
-            width: 300px;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        /* Estilos para o formulário */
-        .form-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        /* Estilos para o menu suspenso */
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .navbar a {
-            float: left;
-            display: block;
-            color: #fff;
-            padding: 14px 20px;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .navbar a:hover {
-            background-color: #575757;
-        }
-
-        .dropdown {
-            float: left;
-            overflow: hidden;
-        }
-
-        .dropdown .dropbtn {
-            background-color: #333;
-            color: #fff;
-            padding: 14px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropdown:hover .dropbtn {
-            background-color: #575757;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 160px;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #575757;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
     </style>
 </head>
 <body>
 
-    <!-- Menu -->
-    <div class="navbar">
-        <a href="#home">Início</a>
-        <a href="#services">Serviços</a>
-        <div class="dropdown">
-            <button class="dropbtn">Sobre</button>
-            <div class="dropdown-content">
-                <a href="#">História</a>
-                <a href="#">Equipe</a>
-                <a href="#">Missão</a>
-            </div>
-        </div>
-        <a href="#contact">Contato</a>
-    </div>
-
-    <!-- Contador -->
-    <div class="counter-container">
-        <h2>Contador de Clique</h2>
-        <div class="counter" id="counter">0</div>
-        <button class="button" onclick="incrementCounter()">Clique Aqui</button>
-    </div>
-
-    <!-- Galeria -->
-    <h2>Galeria de Imagens</h2>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300x200" alt="Imagem 1">
-    </div>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300x200" alt="Imagem 2">
-    </div>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300x200" alt="Imagem 3">
-    </div>
-    <div class="gallery-item">
-        <img src="https://via.placeholder.com/300x200" alt="Imagem 4">
-    </div>
-
-    <!-- Formulário de Contato -->
-    <h2>Formulário de Contato</h2>
-    <div class="form-container">
-        <form action="#" method="POST">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="message">Mensagem</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-
-            <button type="submit" class="button">Enviar</button>
-        </form>
+    <div>
+        <div class="clock" id="digitalClock">00:00:00</div>
+        <button onclick="startClock()">Iniciar Relógio</button>
     </div>
 
     <script>
-        // Função do contador
-        let count = 0;
+        let clockInterval;
 
-        function incrementCounter() {
-            count++;
-            document.getElementById('counter').textContent = count;
+        function updateClock() {
+            const currentTime = new Date();
+            const hours = String(currentTime.getHours()).padStart(2, '0');
+            const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+            const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+            document.getElementById('digitalClock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function startClock() {
+            if (clockInterval) {
+                clearInterval(clockInterval);
+            }
+            clockInterval = setInterval(updateClock, 1000);
+            updateClock();  // Update immediately
         }
     </script>
 
