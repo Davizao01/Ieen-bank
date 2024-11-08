@@ -1,242 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Dynamic Page</title>
+    <title>Ieen Bank - Banco Fictício</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
+            height: 100vh;
+            margin: 0;
         }
 
-        header {
-            background: linear-gradient(135deg, #42a5f5, #478ed1);
-            color: white;
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 2rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            margin: 20px 0;
-            font-size: 1.8rem;
-        }
-
-        .interactive-box {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .interactive-box input {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 80%;
-            font-size: 1rem;
-        }
-
-        .interactive-box button {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #42a5f5;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 15px;
-        }
-
-        .interactive-box button:hover {
-            background-color: #1e88e5;
-        }
-
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .card {
+        .login-container, .bank-container {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden;
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-body {
+            border-radius: 8px;
             padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
         }
 
-        .card-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
+        .login-container h2, .bank-container h2 {
+            margin-bottom: 10px;
         }
 
-        .card-description {
-            font-size: 1rem;
-            color: #7f8c8d;
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 80%;
+            padding: 8px;
             margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
         }
 
-        .card-btn {
-            background-color: #42a5f5;
+        button {
+            width: 80%;
+            padding: 10px;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 15px;
         }
 
-        .card-btn:hover {
-            background-color: #1e88e5;
+        button:hover {
+            background-color: #45a049;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #ddd;
         }
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-        }
-
-        @media (max-width: 768px) {
-            .cards-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            header {
-                font-size: 1.5rem;
-            }
-        }
-
-        .simple-box {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
             margin-bottom: 20px;
         }
 
-        .simple-btn {
-            background-color: #42a5f5;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .simple-btn:hover {
-            background-color: #1e88e5;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        Multi-Dynamic & Interactive Page
-    </header>
+<!-- Login Simulado -->
+<div id="login" class="login-container">
+    <h2>Bem-vindo ao Ieen Bank</h2>
+    <input type="text" id="username" placeholder="Nome de usuário" required>
+    <input type="password" id="password" placeholder="Senha" required>
+    <button onclick="login()">Entrar</button>
+</div>
 
-    <div class="interactive-box">
-        <h2>Interact with Us</h2>
-        <input type="text" id="userInput" placeholder="Type something..." />
-        <button onclick="showMessage()">Submit</button>
-        <p id="message"></p>
+<!-- Banco (aparece após login) -->
+<div id="bank" class="bank-container hidden">
+    <h2>Bem-vindo, <span id="user-name"></span></h2>
+    <img id="profile-img" class="profile-img" src="https://via.placeholder.com/100" alt="Foto de perfil">
+    <input type="file" id="profile-pic" accept="image/*" onchange="changeProfilePic()">
+    
+    <div class="balance">
+        Saldo: R$ <span id="balance">0.00</span>
     </div>
 
-    <div class="simple-box">
-        <h2>Simple Interaction Box</h2>
-        <button class="simple-btn" onclick="alert('Simple Button Clicked!')">Click Me (Simple)</button>
-    </div>
+    <input type="number" id="amount" placeholder="Digite um valor" min="0">
+    <button onclick="deposit()">Depositar</button>
+    <button onclick="withdraw()">Sacar</button>
 
-    <div class="cards-container">
-        <div class="card">
-            <img src="https://via.placeholder.com/300x200" alt="Image 1">
-            <div class="card-body">
-                <h3 class="card-title">Card 1</h3>
-                <p class="card-description">This is a simple description for Card 1. Hover to see the effect.</p>
-                <button class="card-btn" onclick="alert('Card 1 clicked!')">Click Me</button>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/300x200" alt="Image 2">
-            <div class="card-body">
-                <h3 class="card-title">Card 2</h3>
-                <p class="card-description">This is a simple description for Card 2. Hover to see the effect.</p>
-                <button class="card-btn" onclick="alert('Card 2 clicked!')">Click Me</button>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/300x200" alt="Image 3">
-            <div class="card-body">
-                <h3 class="card-title">Card 3</h3>
-                <p class="card-description">This is a simple description for Card 3. Hover to see the effect.</p>
-                <button class="card-btn" onclick="alert('Card 3 clicked!')">Click Me</button>
-            </div>
-        </div>
-    </div>
+    <button onclick="logout()">Sair</button>
+</div>
 
-    <footer>
-        Made with 💖 by You
-    </footer>
+<script>
+    let loggedIn = false;
+    let userName = '';
+    let balance = 0;
 
-    <script>
-        function showMessage() {
-            var userInput = document.getElementById("userInput").value;
-            var message = document.getElementById("message");
-            if (userInput) {
-                message.textContent = "You typed: " + userInput;
-                message.style.color = "green";
-            } else {
-                message.textContent = "Please type something!";
-                message.style.color = "red";
-            }
+    // Função de login simulado
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Checa se o nome de usuário e senha não estão vazios
+        if (username && password) {
+            loggedIn = true;
+            userName = username;
+
+            // Esconde o login e mostra o banco
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('bank').classList.remove('hidden');
+
+            // Exibe o nome de usuário e o saldo
+            document.getElementById('user-name').innerText = userName;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+        } else {
+            alert('Preencha o nome de usuário e a senha!');
         }
-    </script>
+    }
+
+    // Função de logout
+    function logout() {
+        loggedIn = false;
+        balance = 0;
+        document.getElementById('login').classList.remove('hidden');
+        document.getElementById('bank').classList.add('hidden');
+    }
+
+    // Função para depositar dinheiro
+    function deposit() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        if (amount > 0) {
+            balance += amount;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+        } else {
+            alert('Valor inválido para depósito!');
+        }
+    }
+
+    // Função para sacar dinheiro
+    function withdraw() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+        } else {
+            alert('Valor inválido ou saldo insuficiente!');
+        }
+    }
+
+    // Função para mudar a foto de perfil
+    function changeProfilePic() {
+        const file = document.getElementById('profile-pic').files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-img').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 
 </body>
 </html>
