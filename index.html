@@ -3,210 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ieen Bank - Banco Fictício</title>
+    <title>Ieen Bank - Minigame de Vendas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #f0f0f0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
 
-        .login-container, .bank-container {
+        .game-container {
             background-color: white;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            margin-top: 50px;
         }
 
-        .login-container h2, .bank-container h2 {
-            margin-bottom: 10px;
+        .balance, .inventory, .log {
+            font-size: 18px;
+            margin-bottom: 20px;
         }
 
-        input[type="text"], input[type="password"], input[type="number"] {
-            width: 80%;
-            padding: 8px;
-            margin: 10px 0;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
         button {
-            width: 80%;
             padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            flex: 1;
+            margin: 0 5px;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            border: 3px solid #ddd;
-        }
-
-        .balance {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .reward-box {
-            background-color: #ffdf00;
-            color: black;
+        .log {
+            background-color: #eef;
             padding: 10px;
             border-radius: 8px;
-            margin: 15px 0;
-            cursor: pointer;
-            font-weight: bold;
+            font-size: 14px;
+            height: 100px;
+            overflow-y: auto;
+            text-align: left;
         }
 
-        .reward-box:hover {
-            background-color: #ffcc00;
+        .log-entry {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
 
-<!-- Login Simulado -->
-<div id="login" class="login-container">
-    <h2>Bem-vindo ao Ieen Bank</h2>
-    <input type="text" id="username" placeholder="Nome de usuário" required>
-    <input type="password" id="password" placeholder="Senha" required>
-    <button onclick="login()">Entrar</button>
-</div>
+<div class="game-container">
+    <h2>Minigame de Vendas</h2>
+    <div class="balance">Saldo: R$ <span id="balance">100.00</span></div>
+    <div class="inventory">Inventário: <span id="inventory">5</span> itens</div>
 
-<!-- Banco (aparece após login) -->
-<div id="bank" class="bank-container hidden">
-    <h2>Bem-vindo, <span id="user-name"></span></h2>
-    <img id="profile-img" class="profile-img" src="https://via.placeholder.com/100" alt="Foto de perfil">
-    <input type="file" id="profile-pic" accept="image/*" onchange="changeProfilePic()">
-    
-    <div class="balance">
-        Saldo: R$ <span id="balance">0.00</span>
+    <div class="buttons-container">
+        <button onclick="buyItem()">Comprar Produto (-R$ 10)</button>
+        <button onclick="sellItem()">Vender Produto (+R$ 20)</button>
     </div>
 
-    <input type="number" id="amount" placeholder="Digite um valor" min="0">
-    <button onclick="deposit()">Depositar</button>
-    <button onclick="withdraw()">Sacar</button>
-
-    <div id="reward" class="reward-box hidden" onclick="collectReward()">Clique para coletar R$ <span id="reward-amount"></span>!</div>
-
-    <button onclick="logout()">Sair</button>
+    <div class="log" id="log">Log de Vendas:</div>
 </div>
 
 <script>
-    let loggedIn = false;
-    let userName = '';
-    let balance = 0;
-    let rewardInterval;
+    let balance = 100;
+    let inventory = 5;
+    const logElement = document.getElementById('log');
 
-    // Função de login simulado
-    function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    // Função para atualizar o saldo e inventário na tela
+    function updateDisplay() {
+        document.getElementById('balance').innerText = balance.toFixed(2);
+        document.getElementById('inventory').innerText = inventory;
+    }
 
-        // Checa se o nome de usuário e senha não estão vazios
-        if (username && password) {
-            loggedIn = true;
-            userName = username;
+    // Função para adicionar uma entrada ao log
+    function addLog(message) {
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.textContent = message;
+        logElement.appendChild(logEntry);
+        logElement.scrollTop = logElement.scrollHeight;
+    }
 
-            // Define o saldo inicial baseado no nome de usuário
-            balance = (username.toLowerCase() === "ieen") ? 99999 : 100;
-
-            // Esconde o login e mostra o banco
-            document.getElementById('login').classList.add('hidden');
-            document.getElementById('bank').classList.remove('hidden');
-
-            // Exibe o nome de usuário e o saldo
-            document.getElementById('user-name').innerText = userName;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-
-            // Inicia o intervalo para gerar recompensas a cada 5 segundos
-            startRewardInterval();
+    // Função para comprar um item (custa R$ 10)
+    function buyItem() {
+        if (balance >= 10) {
+            balance -= 10;
+            inventory += 1;
+            updateDisplay();
+            addLog('Você comprou um produto por R$ 10.');
         } else {
-            alert('Preencha o nome de usuário e a senha!');
+            addLog('Saldo insuficiente para comprar um produto.');
         }
     }
 
-    // Função de logout
-    function logout() {
-        loggedIn = false;
-        balance = 0;
-        document.getElementById('login').classList.remove('hidden');
-        document.getElementById('bank').classList.add('hidden');
-
-        // Para o intervalo de recompensas
-        clearInterval(rewardInterval);
-    }
-
-    // Função para depositar dinheiro
-    function deposit() {
-        const amount = parseFloat(document.getElementById('amount').value);
-        if (amount > 0) {
-            balance += amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-        } else {
-            alert('Valor inválido para depósito!');
-        }
-    }
-
-    // Função para sacar dinheiro
-    function withdraw() {
-        const amount = parseFloat(document.getElementById('amount').value);
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-        } else {
-            alert('Valor inválido ou saldo insuficiente!');
-        }
-    }
-
-    // Função para mudar a foto de perfil
-    function changeProfilePic() {
-        const file = document.getElementById('profile-pic').files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('profile-img').src = e.target.result;
+    // Função para tentar vender um item (ganha R$ 20)
+    function sellItem() {
+        if (inventory > 0) {
+            const chance = Math.random();
+            if (chance <= 0.5) { // 50% de chance de venda
+                balance += 20;
+                inventory -= 1;
+                addLog('Venda bem-sucedida! Você ganhou R$ 20.');
+            } else {
+                addLog('Tentativa de venda falhou.');
             }
-            reader.readAsDataURL(file);
+            updateDisplay();
+        } else {
+            addLog('Inventário vazio. Compre mais produtos para vender.');
         }
     }
 
-    // Função para iniciar o intervalo de recompensas
-    function startRewardInterval() {
-        rewardInterval = setInterval(() => {
-            const rewardAmount = Math.floor(Math.random() * (100 - 5 + 1)) + 5;
-            document.getElementById('reward-amount').innerText = rewardAmount;
-            document.getElementById('reward').classList.remove('hidden');
+    // Função para verificar automaticamente a cada 5 segundos
+    function autoSell() {
+        setInterval(() => {
+            sellItem();
         }, 5000);
     }
 
-    // Função para coletar a recompensa
-    function collectReward() {
-        const rewardAmount = parseFloat(document.getElementById('reward-amount').innerText);
-        balance += rewardAmount;
-        document.getElementById('balance').innerText = balance.toFixed(2);
-        document.getElementById('reward').classList.add('hidden');
-    }
+    // Inicializa o jogo com auto-venda a cada 5 segundos
+    autoSell();
+    updateDisplay();
 </script>
 
 </body>
