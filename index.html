@@ -3,73 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interatividade Complexa com Animações</title>
+    <title>Site Mega Complexo</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        /* Reset and Basic Layout */
+        * {
             margin: 0;
             padding: 0;
-            background: #f4f4f9;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             height: 100vh;
+            flex-direction: column;
             overflow: hidden;
         }
-
         h1 {
-            color: #333;
-            font-size: 36px;
-            margin-bottom: 20px;
-            animation: fadeIn 2s ease;
-        }
-
-        .card {
-            width: 80%;
-            max-width: 400px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px;
+            color: #34495e;
             text-align: center;
-            animation: slideIn 1s ease-out;
+            font-size: 3em;
+            animation: fadeIn 3s ease-out;
+            margin-bottom: 30px;
         }
-
-        .card h2 {
-            font-size: 28px;
-            color: #3498db;
-        }
-
-        button {
-            padding: 10px 30px;
-            font-size: 18px;
-            margin-top: 15px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #c0392b;
-        }
-
-        .form-group {
-            margin: 10px 0;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
+        
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -79,6 +39,15 @@
             }
         }
 
+        /* Card Container */
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 30px;
+            animation: slideIn 1s ease-out;
+        }
         @keyframes slideIn {
             from {
                 transform: translateX(-100%);
@@ -88,55 +57,173 @@
             }
         }
 
-        .response-message {
+        /* Card Styling */
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            color: #3498db;
+        }
+
+        button {
+            padding: 12px 24px;
             margin-top: 20px;
-            padding: 15px;
-            background-color: #ecf0f1;
-            border-radius: 5px;
-            display: none;
+            font-size: 16px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1c5984;
+        }
+
+        /* Form Styling */
+        .form-container {
+            margin-top: 50px;
+            text-align: center;
+            width: 100%;
+        }
+        .form-container input,
+        .form-container button {
+            padding: 10px;
             font-size: 18px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            margin-top: 10px;
+        }
+        .form-container button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Graph Section */
+        .graph-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 50px;
+        }
+        .graph {
+            width: 48%;
+            height: 300px;
+            background-color: #ecf0f1;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Parallax Effect */
+        .parallax {
+            position: relative;
+            background: url('https://via.placeholder.com/1500x1000') no-repeat center center fixed;
+            background-size: cover;
+            height: 500px;
+            width: 100%;
+            animation: parallaxEffect 5s infinite alternate;
+        }
+        @keyframes parallaxEffect {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>Interatividade Complexa com Animações</h1>
+    <h1>Site Mega Complexo com Animações e Interações</h1>
 
-    <div class="card">
-        <h2>Cadastro</h2>
-        <div class="form-group">
-            <input type="text" class="input-field" id="name" placeholder="Digite seu nome">
+    <!-- Parallax Section -->
+    <div class="parallax"></div>
+
+    <!-- Card Container -->
+    <div class="card-container">
+        <div class="card">
+            <h2>Card 1</h2>
+            <p>Card 1 conteúdo</p>
+            <button onclick="alert('Você clicou no Card 1!')">Clique Aqui</button>
         </div>
-        <div class="form-group">
-            <input type="email" class="input-field" id="email" placeholder="Digite seu e-mail">
+        <div class="card">
+            <h2>Card 2</h2>
+            <p>Card 2 conteúdo</p>
+            <button onclick="alert('Você clicou no Card 2!')">Clique Aqui</button>
         </div>
-        <button onclick="submitForm()">Enviar</button>
+        <div class="card">
+            <h2>Card 3</h2>
+            <p>Card 3 conteúdo</p>
+            <button onclick="alert('Você clicou no Card 3!')">Clique Aqui</button>
+        </div>
     </div>
 
-    <div class="response-message" id="responseMessage"></div>
+    <!-- Formulario -->
+    <div class="form-container">
+        <h2>Cadastro com Validação</h2>
+        <input type="text" id="username" placeholder="Nome">
+        <input type="email" id="useremail" placeholder="Email">
+        <button onclick="submitForm()">Enviar</button>
+        <div id="formResponse" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="graph-container">
+        <div class="graph" id="graph1"></div>
+        <div class="graph" id="graph2"></div>
+    </div>
 
     <script>
+        // Função de envio de formulário com validação
         function submitForm() {
-            // Captura os valores dos campos
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const responseMessage = document.getElementById('responseMessage');
-
-            // Verifica se os campos estão preenchidos
+            const name = document.getElementById('username').value;
+            const email = document.getElementById('useremail').value;
+            const response = document.getElementById('formResponse');
             if (name && email) {
-                responseMessage.style.backgroundColor = '#2ecc71'; // Verde (sucesso)
-                responseMessage.style.display = 'block';
-                responseMessage.textContent = `Obrigado, ${name}! Seu e-mail (${email}) foi enviado com sucesso.`;
+                response.textContent = `Obrigado, ${name}! Seu cadastro foi realizado com sucesso.`;
+                response.style.color = 'green';
             } else {
-                responseMessage.style.backgroundColor = '#e74c3c'; // Vermelho (erro)
-                responseMessage.style.display = 'block';
-                responseMessage.textContent = 'Por favor, preencha todos os campos!';
+                response.textContent = 'Por favor, preencha todos os campos.';
+                response.style.color = 'red';
             }
-
-            // Limpa os campos após o envio
-            document.getElementById('name').value = '';
-            document.getElementById('email').value = '';
         }
+
+        // Gráfico Dinâmico (apenas simulação de visualização)
+        function createGraph(id) {
+            const graphElement = document.getElementById(id);
+            graphElement.style.backgroundColor = '#3498db';
+            graphElement.style.position = 'relative';
+
+            const data = Array.from({ length: 10 }, () => Math.random() * 100);
+            let barWidth = graphElement.offsetWidth / data.length;
+
+            data.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.style.height = `${value}%`;
+                bar.style.width = `${barWidth}px`;
+                bar.style.backgroundColor = '#e74c3c';
+                bar.style.position = 'absolute';
+                bar.style.left = `${barWidth * index}px`;
+                graphElement.appendChild(bar);
+            });
+        }
+
+        createGraph('graph1');
+        createGraph('graph2');
     </script>
 
 </body>
