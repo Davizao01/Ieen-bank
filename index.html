@@ -3,74 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash de Cores Aleatórias</title>
+    <title>Interatividade Complexa com Animações</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
             margin: 0;
+            padding: 0;
+            background: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
-            text-align: center;
+            overflow: hidden;
         }
 
         h1 {
             color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        .card {
+            width: 80%;
+            max-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            animation: slideIn 1s ease-out;
+        }
+
+        .card h2 {
+            font-size: 28px;
+            color: #3498db;
         }
 
         button {
-            padding: 15px 40px;
+            padding: 10px 30px;
             font-size: 18px;
-            background-color: #007bff;
+            margin-top: 15px;
+            background-color: #e74c3c;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #c0392b;
         }
 
-        .message {
-            font-size: 24px;
+        .form-group {
+            margin: 10px 0;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .response-message {
             margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-            .message {
-                font-size: 20px;
-            }
-            button {
-                padding: 12px 30px;
-                font-size: 16px;
-            }
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            display: none;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-    <div>
-        <h1>Flash de Cores Aleatórias</h1>
-        <button onclick="changeBackground()">Clique para mudar a cor!</button>
-        <div class="message" id="message"></div>
+    <h1>Interatividade Complexa com Animações</h1>
+
+    <div class="card">
+        <h2>Cadastro</h2>
+        <div class="form-group">
+            <input type="text" class="input-field" id="name" placeholder="Digite seu nome">
+        </div>
+        <div class="form-group">
+            <input type="email" class="input-field" id="email" placeholder="Digite seu e-mail">
+        </div>
+        <button onclick="submitForm()">Enviar</button>
     </div>
 
-    <script>
-        function changeBackground() {
-            const colors = ['#FF5733', '#33FF57', '#3357FF', '#F0E130', '#8E44AD'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            document.body.style.backgroundColor = randomColor;
+    <div class="response-message" id="responseMessage"></div>
 
-            const messageElement = document.getElementById('message');
-            messageElement.textContent = `A cor agora é: ${randomColor}`;
+    <script>
+        function submitForm() {
+            // Captura os valores dos campos
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const responseMessage = document.getElementById('responseMessage');
+
+            // Verifica se os campos estão preenchidos
+            if (name && email) {
+                responseMessage.style.backgroundColor = '#2ecc71'; // Verde (sucesso)
+                responseMessage.style.display = 'block';
+                responseMessage.textContent = `Obrigado, ${name}! Seu e-mail (${email}) foi enviado com sucesso.`;
+            } else {
+                responseMessage.style.backgroundColor = '#e74c3c'; // Vermelho (erro)
+                responseMessage.style.display = 'block';
+                responseMessage.textContent = 'Por favor, preencha todos os campos!';
+            }
+
+            // Limpa os campos após o envio
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
         }
     </script>
 
