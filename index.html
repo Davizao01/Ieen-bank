@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IECode Engine Test</title>
+  <style>
+    #player {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+
+<div id="player"></div>
+
+<script>
+  // Variáveis de posição e velocidade
+  let posX = window.innerWidth / 2;
+  let speed = 5;
+
+  // Elemento "player"
+  const player = document.getElementById('player');
+  
+  // Função para atualizar a posição
+  function updatePosition() {
+    player.style.left = `${posX}px`;
+  }
+
+  // Função para capturar o IECode e movimentar
+  function handleIECode(event) {
+    if (event.type === "keydown") {
+      if (event.key === "a" || event.key === "A") {
+        posX -= speed; // Movimenta para a esquerda
+      } else if (event.key === "d" || event.key === "D") {
+        posX += speed; // Movimenta para a direita
+      }
+    }
+    updatePosition();
+  }
+
+  // Event Listeners para IECode
+  document.addEventListener("keydown", handleIECode);
+</script>
+
+</body>
+</html>
