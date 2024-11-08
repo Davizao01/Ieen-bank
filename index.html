@@ -3,72 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interação Responsiva</title>
+    <title>Código Aleatório</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #ececec;
+            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f7f7f7;
             flex-direction: column;
-            text-align: center;
         }
+
         h1 {
-            font-size: 32px;
             color: #333;
-            margin-bottom: 20px;
         }
-        .message {
-            font-size: 22px;
-            margin-bottom: 20px;
+
+        p {
+            font-size: 20px;
+            color: #555;
         }
+
         button {
-            padding: 20px 40px;
-            font-size: 24px;
-            cursor: pointer;
-            border: none;
-            background-color: #3498db;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin-top: 20px;
+            background-color: #28a745;
             color: white;
-            border-radius: 10px;
-            margin: 10px;
-            transition: background-color 0.3s ease;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
+
         button:hover {
-            background-color: #2980b9;
-        }
-        button:active {
-            background-color: #1c5984;
-        }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-            .message {
-                font-size: 20px;
-            }
-            button {
-                padding: 18px 35px;
-                font-size: 20px;
-            }
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
 
-    <h1>Interação Responsiva</h1>
-    <div class="message" id="message">Clique ou toque no botão para interagir!</div>
-    <button onclick="touchChallenge()">Clique ou toque aqui!</button>
+    <h1>Bem-vindo ao Código Aleatório!</h1>
+    <p>Este é um site com conteúdo aleatório. Clique no botão abaixo para ver algo novo!</p>
+
+    <button onclick="changeContent()">Clique Aqui!</button>
 
     <script>
-        function touchChallenge() {
-            const messageElement = document.getElementById('message');
-            messageElement.textContent = "Você clicou ou tocou no botão! Toque ou clique novamente!";
-            setTimeout(() => {
-                messageElement.textContent = "Clique ou toque no botão para interagir!";
-            }, 2000);
+        function changeContent() {
+            const messages = [
+                "Você descobriu um segredo! 👀",
+                "O código mudou, agora está diferente! 🔄",
+                "Você é ótimo em clicar! 🎉",
+                "Não pare de interagir, o código está crescendo! 🌱",
+                "Você encontrou um novo caminho! ➡️"
+            ];
+
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+            document.querySelector('p').textContent = randomMessage;
         }
     </script>
 
