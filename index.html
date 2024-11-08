@@ -3,143 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ieen Bank - Minigame de Vendas</title>
+    <title>Ieen Bank - Simulador</title>
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #121212;
+            color: #ffffff;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+
+        .bank-container {
+            background-color: #1a1a2e;
+            width: 320px;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bank-header h2 {
+            font-size: 24px;
+            font-weight: bold;
             margin: 0;
         }
 
-        .game-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-            margin-top: 50px;
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2d2d44;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
-        .balance, .inventory, .log {
-            font-size: 18px;
-            margin-bottom: 20px;
+        .balance {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin: 20px 0;
         }
 
         .buttons-container {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            justify-content: space-around;
+            margin-top: 20px;
         }
 
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
+        .action-button {
+            background-color: #4a90e2;
+            color: #ffffff;
+            padding: 12px 20px;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            flex: 1;
-            margin: 0 5px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .log {
-            background-color: #eef;
-            padding: 10px;
             border-radius: 8px;
-            font-size: 14px;
-            height: 100px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #357abd;
+        }
+
+        .log-container {
+            margin-top: 20px;
+            background-color: #2d2d44;
+            padding: 10px;
+            border-radius: 10px;
+            max-height: 100px;
             overflow-y: auto;
+            font-size: 14px;
             text-align: left;
         }
 
         .log-entry {
             margin: 5px 0;
+            color: #d1d1d1;
         }
+
     </style>
 </head>
 <body>
 
-<div class="game-container">
-    <h2>Minigame de Vendas</h2>
-    <div class="balance">Saldo: R$ <span id="balance">100.00</span></div>
-    <div class="inventory">Inventário: <span id="inventory">5</span> itens</div>
-
-    <div class="buttons-container">
-        <button onclick="buyItem()">Comprar Produto (-R$ 10)</button>
-        <button onclick="sellItem()">Vender Produto (+R$ 20)</button>
+<div class="bank-container">
+    <div class="bank-header">
+        <h2>Ieen Bank</h2>
+        <div class="profile-pic" id="profile-pic">I</div>
     </div>
-
-    <div class="log" id="log">Log de Vendas:</div>
+    <div class="balance">R$ <span id="balance">100</span></div>
+    <div class="buttons-container">
+        <button class="action-button" onclick="addBalance()">Depositar R$ 50</button>
+        <button class="action-button" onclick="spendBalance()">Gastar R$ 20</button>
+    </div>
+    <div class="log-container" id="log">Log de Ações:</div>
 </div>
 
 <script>
+    // Inicialização do saldo e log de ações
     let balance = 100;
-    let inventory = 5;
-    const logElement = document.getElementById('log');
+    const logContainer = document.getElementById('log');
+    const profilePic = document.getElementById('profile-pic');
 
-    // Função para atualizar o saldo e inventário na tela
-    function updateDisplay() {
+    // Usuário especial 'ieen' começa com saldo de R$ 99999
+    if (prompt("Digite o nome de usuário:") === "ieen") {
+        balance = 99999;
+        profilePic.innerText = "I";
+    } else {
+        profilePic.innerText = "U";
+    }
+
+    // Função para atualizar a exibição do saldo
+    function updateBalanceDisplay() {
         document.getElementById('balance').innerText = balance.toFixed(2);
-        document.getElementById('inventory').innerText = inventory;
     }
 
-    // Função para adicionar uma entrada ao log
-    function addLog(message) {
-        const logEntry = document.createElement('div');
-        logEntry.className = 'log-entry';
-        logEntry.textContent = message;
-        logElement.appendChild(logEntry);
-        logElement.scrollTop = logElement.scrollHeight;
+    // Função para adicionar entrada ao log de ações
+    function addLogEntry(message) {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = message;
+        logContainer.appendChild(entry);
+        logContainer.scrollTop = logContainer.scrollHeight;
     }
 
-    // Função para comprar um item (custa R$ 10)
-    function buyItem() {
-        if (balance >= 10) {
-            balance -= 10;
-            inventory += 1;
-            updateDisplay();
-            addLog('Você comprou um produto por R$ 10.');
+    // Função para adicionar R$ 50 ao saldo
+    function addBalance() {
+        balance += 50;
+        updateBalanceDisplay();
+        addLogEntry('Você depositou R$ 50.');
+    }
+
+    // Função para gastar R$ 20
+    function spendBalance() {
+        if (balance >= 20) {
+            balance -= 20;
+            updateBalanceDisplay();
+            addLogEntry('Você gastou R$ 20.');
         } else {
-            addLog('Saldo insuficiente para comprar um produto.');
+            addLogEntry('Saldo insuficiente para gastar R$ 20.');
         }
     }
 
-    // Função para tentar vender um item (ganha R$ 20)
-    function sellItem() {
-        if (inventory > 0) {
-            const chance = Math.random();
-            if (chance <= 0.5) { // 50% de chance de venda
-                balance += 20;
-                inventory -= 1;
-                addLog('Venda bem-sucedida! Você ganhou R$ 20.');
-            } else {
-                addLog('Tentativa de venda falhou.');
-            }
-            updateDisplay();
-        } else {
-            addLog('Inventário vazio. Compre mais produtos para vender.');
-        }
-    }
-
-    // Função para verificar automaticamente a cada 5 segundos
-    function autoSell() {
-        setInterval(() => {
-            sellItem();
-        }, 5000);
-    }
-
-    // Inicializa o jogo com auto-venda a cada 5 segundos
-    autoSell();
-    updateDisplay();
+    // Atualização inicial do saldo
+    updateBalanceDisplay();
 </script>
 
 </body>
