@@ -285,8 +285,8 @@
         if (loggedIn) {
             document.getElementById('login').style.display = 'none';
             document.getElementById('bank').style.display = 'block';
-            document.getElementById('user-name').innerText = userName;
-            document.getElementById('balance').innerText = balance.toFixed(2);
+            document.getElementById('user-name').textContent = userName;
+            document.getElementById('balance').textContent = balance.toFixed(2);
         }
     }
 
@@ -294,6 +294,12 @@
         loggedIn = false;
         document.getElementById('login').style.display = 'block';
         document.getElementById('bank').style.display = 'none';
+        resetBankUI();
+    }
+
+    function resetBankUI() {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
     }
 
     function togglePix() {
@@ -302,14 +308,18 @@
     }
 
     function sendPix() {
-        const amount = parseFloat(document.getElementById('pix-amount').value);
+        const pixName = document.getElementById('pix-name').value;
+        const pixAmount = parseFloat(document.getElementById('pix-amount').value);
 
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            showConfirmationMessage();
+        if (pixName && pixAmount > 0 && pixAmount <= balance) {
+            balance -= pixAmount;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('confirmation-msg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation-msg').style.display = 'none';
+            }, 2000);
         } else {
-            alert("Saldo insuficiente ou valor inválido.");
+            alert("Saldo insuficiente ou dados inválidos.");
         }
     }
 
@@ -319,14 +329,17 @@
     }
 
     function makeDonation() {
-        const amount = parseFloat(document.getElementById('donation-amount').value);
+        const donationAmount = parseFloat(document.getElementById('donation-amount').value);
 
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            donationBalance += amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
-            showConfirmationMessage();
+        if (donationAmount > 0 && donationAmount <= balance) {
+            balance -= donationAmount;
+            donationBalance += donationAmount;
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('donation-balance').textContent = donationBalance.toFixed(2);
+            document.getElementById('confirmation-msg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation-msg').style.display = 'none';
+            }, 2000);
         } else {
             alert("Saldo insuficiente ou valor inválido.");
         }
@@ -342,31 +355,21 @@
 
         if (betAmount > 0 && betAmount <= balance) {
             const result = Math.random() < 0.5 ? "Perdeu" : "Ganhou";
-            const betResult = result === "Ganhou" ? betAmount * 2 : 0;
-            balance += betResult;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('bet-result').innerText = `Você ${result}! Novo saldo: R$ ${balance.toFixed(2)}`;
+
+            // Se perdeu, subtrai o valor apostado
+            if (result === "Perdeu") {
+                balance -= betAmount;
+            } else {
+                balance += betAmount * 2; // Se ganhou, dobra o valor apostado
+            }
+
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('bet-result').textContent = `Você ${result}! Novo saldo: R$ ${balance.toFixed(2)}`;
         } else {
             alert("Saldo insuficiente ou valor inválido.");
         }
     }
 
-    function showConfirmationMessage() {
-        const confirmationMsg = document.getElementById('confirmation-msg');
-        confirmationMsg.style.display = 'block';
-        setTimeout(() => confirmationMsg.style.display = 'none', 2000);
-    }
-
-    function changeProfilePic() {
-        const file = document.getElementById('profile-upload').files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                document.getElementById('profile-img').src = reader.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
 </script>
 
 </body>
