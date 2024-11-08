@@ -8,7 +8,7 @@
         /* Estilos principais */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(135deg, #004b6d, #005a8d, #006ea7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,7 +23,7 @@
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             width: 400px;
             text-align: center;
         }
@@ -38,22 +38,22 @@
 
         /* Campos de entrada */
         input[type="text"], input[type="password"], input[type="number"] {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
+            width: 85%;
+            padding: 12px;
+            margin: 15px 0;
             border-radius: 8px;
-            border: none;
+            border: 1px solid #ddd;
             outline: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: #f3f4f6;
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
             font-size: 16px;
         }
 
         /* Botões */
         button {
-            width: 85%;
-            padding: 12px;
-            background: #0077ff;
+            width: 90%;
+            padding: 14px;
+            background: #0078d4;
             color: white;
             border: none;
             border-radius: 25px;
@@ -61,20 +61,20 @@
             font-size: 16px;
             font-weight: bold;
             margin-top: 10px;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.2s;
         }
 
         button:hover {
             transform: scale(1.05);
+            background: #006bb3;
         }
 
         /* Saldo */
         .balance, .donation-balance {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             margin: 15px 0;
-            color: #fffa65;
-            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+            color: #f3f4f6;
         }
 
         /* Caixa de mensagem de confirmação */
@@ -104,6 +104,71 @@
             padding: 20px;
             margin-top: 10px;
         }
+
+        /* Caixa de Dinheiro */
+        .money-box {
+            width: 50px;
+            height: 50px;
+            background-color: gold;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .money-box img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        /* Contêiner de caixas de dinheiro */
+        .money-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        /* Foto de Perfil */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            margin-top: 10px;
+            background-color: #28a745;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +182,16 @@
 
 <div id="bank" class="container" style="display: none;">
     <h2>Bem-vindo, <span id="user-name"></span></h2>
+
+    <!-- Foto de perfil -->
+    <div class="profile-container">
+        <div id="profile-pic" class="profile-pic">
+            <img id="profile-img" src="" alt="Foto de Perfil">
+        </div>
+    </div>
+    <input type="file" id="profile-upload" style="display: none;" onchange="changeProfilePic()">
+    <button class="upload-btn" onclick="document.getElementById('profile-upload').click()">Alterar Foto de Perfil</button>
+
     <div class="balance">
         Saldo: R$ <span id="balance">0.00</span>
     </div>
@@ -140,6 +215,9 @@
             Total de Doações: R$ <span id="donation-balance">0.00</span>
         </div>
     </div>
+
+    <!-- Contêiner de Caixas de Dinheiro -->
+    <div class="money-container" id="money-container"></div>
 
     <button onclick="logout()">Sair</button>
 
@@ -176,6 +254,9 @@
             document.getElementById('user-name').innerText = userName;
             document.getElementById('balance').innerText = balance.toFixed(2);
             document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
+
+            // Iniciar a geração de caixas de dinheiro
+            setInterval(createMoneyBox, 5000); // Cria uma caixa de dinheiro a cada 5 segundos
         } else {
             alert('Preencha o nome de usuário e a senha!');
         }
@@ -187,60 +268,80 @@
         donationBalance = 0;
         document.getElementById('login').style.display = 'block';
         document.getElementById('bank').style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('profile-img').src = '';
     }
 
     function togglePix() {
         const pixContainer = document.getElementById('pix-container');
-        pixContainer.style.display = pixContainer.style.display === 'block' ? 'none' : 'block';
+        pixContainer.style.display = pixContainer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function sendPix() {
+        const name = document.getElementById('pix-name').value;
+        const amount = parseFloat(document.getElementById('pix-amount').value);
+
+        if (name && !isNaN(amount) && amount > 0 && amount <= balance) {
+            balance -= amount;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+            document.getElementById('confirmation-msg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation-msg').style.display = 'none';
+            }, 2000);
+        } else {
+            alert('Valor ou dados inválidos!');
+        }
     }
 
     function toggleDonation() {
         const donationContainer = document.getElementById('donation-container');
-        donationContainer.style.display = donationContainer.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function sendPix() {
-        const pixName = document.getElementById('pix-name').value;
-        const pixAmount = parseFloat(document.getElementById('pix-amount').value);
-
-        if (!pixName || isNaN(pixAmount) || pixAmount <= 0) {
-            alert('Preencha o nome do destinatário e o valor válido!');
-            return;
-        }
-
-        if (pixAmount > balance) {
-            alert('Saldo insuficiente!');
-            return;
-        }
-
-        balance -= pixAmount;
-        document.getElementById('balance').innerText = balance.toFixed(2);
-
-        document.getElementById('confirmation-msg').style.display = 'block';
-        setTimeout(() => document.getElementById('confirmation-msg').style.display = 'none', 2000);
+        donationContainer.style.display = donationContainer.style.display === 'none' ? 'block' : 'none';
     }
 
     function makeDonation() {
-        const donationAmount = parseFloat(document.getElementById('donation-amount').value);
+        const amount = parseFloat(document.getElementById('donation-amount').value);
 
-        if (isNaN(donationAmount) || donationAmount <= 0) {
-            alert('Preencha o valor da doação!');
-            return;
+        if (!isNaN(amount) && amount > 0 && amount <= balance) {
+            balance -= amount;
+            donationBalance += amount;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+            document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
+            document.getElementById('confirmation-msg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation-msg').style.display = 'none';
+            }, 2000);
+        } else {
+            alert('Valor inválido ou insuficiente!');
         }
+    }
 
-        if (donationAmount > balance) {
-            alert('Saldo insuficiente!');
-            return;
+    function changeProfilePic() {
+        const fileInput = document.getElementById('profile-upload');
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-img').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         }
+    }
 
-        balance -= donationAmount;
-        donationBalance += donationAmount;
+    function createMoneyBox() {
+        const moneyContainer = document.getElementById('money-container');
+        const box = document.createElement('div');
+        box.classList.add('money-box');
+        box.onclick = () => {
+            balance += 10;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+        };
 
-        document.getElementById('balance').innerText = balance.toFixed(2);
-        document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
-
-        document.getElementById('confirmation-msg').style.display = 'block';
-        setTimeout(() => document.getElementById('confirmation-msg').style.display = 'none', 2000);
+        const img = document.createElement('img');
+        img.src = 'https://via.placeholder.com/50x50.png?text=R$';
+        box.appendChild(img);
+        moneyContainer.appendChild(box);
     }
 </script>
 
