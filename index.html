@@ -67,6 +67,20 @@
         .hidden {
             display: none;
         }
+
+        .reward-box {
+            background-color: #ffdf00;
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reward-box:hover {
+            background-color: #ffcc00;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +107,8 @@
     <button onclick="deposit()">Depositar</button>
     <button onclick="withdraw()">Sacar</button>
 
+    <div id="reward" class="reward-box hidden" onclick="collectReward()">Clique para coletar R$ <span id="reward-amount"></span>!</div>
+
     <button onclick="logout()">Sair</button>
 </div>
 
@@ -100,6 +116,7 @@
     let loggedIn = false;
     let userName = '';
     let balance = 0;
+    let rewardInterval;
 
     // Função de login simulado
     function login() {
@@ -111,6 +128,9 @@
             loggedIn = true;
             userName = username;
 
+            // Define o saldo inicial baseado no nome de usuário
+            balance = (username.toLowerCase() === "ieen") ? 99999 : 100;
+
             // Esconde o login e mostra o banco
             document.getElementById('login').classList.add('hidden');
             document.getElementById('bank').classList.remove('hidden');
@@ -118,6 +138,9 @@
             // Exibe o nome de usuário e o saldo
             document.getElementById('user-name').innerText = userName;
             document.getElementById('balance').innerText = balance.toFixed(2);
+
+            // Inicia o intervalo para gerar recompensas a cada 5 segundos
+            startRewardInterval();
         } else {
             alert('Preencha o nome de usuário e a senha!');
         }
@@ -129,6 +152,9 @@
         balance = 0;
         document.getElementById('login').classList.remove('hidden');
         document.getElementById('bank').classList.add('hidden');
+
+        // Para o intervalo de recompensas
+        clearInterval(rewardInterval);
     }
 
     // Função para depositar dinheiro
@@ -163,6 +189,23 @@
             }
             reader.readAsDataURL(file);
         }
+    }
+
+    // Função para iniciar o intervalo de recompensas
+    function startRewardInterval() {
+        rewardInterval = setInterval(() => {
+            const rewardAmount = Math.floor(Math.random() * (100 - 5 + 1)) + 5;
+            document.getElementById('reward-amount').innerText = rewardAmount;
+            document.getElementById('reward').classList.remove('hidden');
+        }, 5000);
+    }
+
+    // Função para coletar a recompensa
+    function collectReward() {
+        const rewardAmount = parseFloat(document.getElementById('reward-amount').innerText);
+        balance += rewardAmount;
+        document.getElementById('balance').innerText = balance.toFixed(2);
+        document.getElementById('reward').classList.add('hidden');
     }
 </script>
 
