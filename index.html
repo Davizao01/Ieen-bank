@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Cores Aleatórias</title>
+    <title>Interação com Emoji</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,28 +12,23 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            flex-direction: column;
             background-color: #f0f0f0;
+            flex-direction: column;
         }
-        h1 {
-            color: #333;
-        }
-        .color-box {
-            width: 200px;
-            height: 200px;
-            margin-top: 20px;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+        .emoji-display {
+            font-size: 100px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
         }
         button {
-            font-size: 20px;
             padding: 10px 20px;
-            margin-top: 20px;
+            font-size: 20px;
             cursor: pointer;
+            border: none;
             background-color: #3498db;
             color: white;
-            border: none;
             border-radius: 5px;
+            margin: 10px;
         }
         button:hover {
             background-color: #2980b9;
@@ -42,14 +37,24 @@
 </head>
 <body>
 
-    <h1>Gerador de Cores Aleatórias</h1>
-    <div class="color-box" id="colorBox"></div>
-    <button onclick="generateRandomColor()">Gerar Cor Aleatória</button>
+    <div class="emoji-display" id="emojiDisplay">😀</div>
+    <button onclick="changeEmoji()">Mudar Emoji</button>
+    <button onclick="rotateEmoji()">Girar Emoji</button>
 
     <script>
-        function generateRandomColor() {
-            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-            document.getElementById('colorBox').style.backgroundColor = randomColor;
+        const emojis = ['😀', '😎', '😍', '🤔', '😜', '😇', '🥳', '😴'];
+
+        function changeEmoji() {
+            const randomIndex = Math.floor(Math.random() * emojis.length);
+            document.getElementById('emojiDisplay').textContent = emojis[randomIndex];
+        }
+
+        function rotateEmoji() {
+            const emoji = document.getElementById('emojiDisplay');
+            emoji.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                emoji.style.transform = 'rotate(0deg)';
+            }, 300);
         }
     </script>
 
