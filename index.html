@@ -3,164 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ieen Bank - Simulador</title>
+    <title>Ieen Bank - Banco Fictício</title>
     <style>
+        /* Estilos Globais */
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #f0f4ff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-        }
-
-        .bank-container {
-            background-color: #1a1a2e;
-            width: 320px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            position: relative;
-        }
-
-        .bank-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .bank-header h2 {
-            font-size: 24px;
-            font-weight: bold;
             margin: 0;
         }
 
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #2d2d44;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
+        /* Container Login e Banco */
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 340px;
+            text-align: center;
+            color: #1f2a44;
         }
 
-        .balance {
-            font-size: 48px;
-            font-weight: bold;
-            color: #4a90e2;
-            margin: 20px 0;
+        h2 {
+            margin-bottom: 20px;
+            color: #0052cc;
         }
 
-        .buttons-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
+        /* Input */
+        input[type="text"], input[type="password"], input[type="number"], input[type="file"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #b0c4de;
+            font-size: 16px;
+            color: #1f2a44;
+            outline: none;
         }
 
-        .action-button {
-            background-color: #4a90e2;
-            color: #ffffff;
-            padding: 12px 20px;
+        input[type="number"] {
+            appearance: textfield;
+        }
+
+        /* Botão */
+        button {
+            width: 90%;
+            padding: 12px;
+            background-color: #0077ff;
+            color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
             font-size: 16px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
-        .action-button:hover {
-            background-color: #357abd;
+        button:hover {
+            background-color: #005bb5;
         }
 
-        .log-container {
-            margin-top: 20px;
-            background-color: #2d2d44;
-            padding: 10px;
-            border-radius: 10px;
-            max-height: 100px;
-            overflow-y: auto;
-            font-size: 14px;
-            text-align: left;
+        /* Foto de Perfil */
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 4px solid #0077ff;
         }
 
-        .log-entry {
-            margin: 5px 0;
-            color: #d1d1d1;
+        .balance {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #003b8e;
         }
 
+        /* Estilo do Alerta de Recompensa */
+        .reward-box {
+            background-color: #e1f4ff;
+            color: #0077ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .reward-box:hover {
+            background-color: #cceaff;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="bank-container">
-    <div class="bank-header">
-        <h2>Ieen Bank</h2>
-        <div class="profile-pic" id="profile-pic">I</div>
+<!-- Login Simulado -->
+<div id="login" class="container">
+    <h2>Ieen Bank</h2>
+    <input type="text" id="username" placeholder="Nome de usuário" required>
+    <input type="password" id="password" placeholder="Senha" required>
+    <button onclick="login()">Entrar</button>
+</div>
+
+<!-- Banco (aparece após login) -->
+<div id="bank" class="container hidden">
+    <h2>Bem-vindo, <span id="user-name"></span></h2>
+    <img id="profile-img" class="profile-img" src="https://via.placeholder.com/100" alt="Foto de perfil">
+    <input type="file" id="profile-pic" accept="image/*" onchange="changeProfilePic()">
+    
+    <div class="balance">
+        Saldo: R$ <span id="balance">0.00</span>
     </div>
-    <div class="balance">R$ <span id="balance">100</span></div>
-    <div class="buttons-container">
-        <button class="action-button" onclick="addBalance()">Depositar R$ 50</button>
-        <button class="action-button" onclick="spendBalance()">Gastar R$ 20</button>
-    </div>
-    <div class="log-container" id="log">Log de Ações:</div>
+
+    <input type="number" id="amount" placeholder="Digite um valor" min="0">
+    <button onclick="addBalance()">Adicionar ao Saldo</button>
+
+    <div id="reward" class="reward-box hidden" onclick="collectReward()">Recompensa disponível: R$ <span id="reward-amount"></span>!</div>
+
+    <button onclick="logout()">Sair</button>
 </div>
 
 <script>
-    // Inicialização do saldo e log de ações
-    let balance = 100;
-    const logContainer = document.getElementById('log');
-    const profilePic = document.getElementById('profile-pic');
+    let loggedIn = false;
+    let userName = '';
+    let balance = 0;
+    let rewardInterval;
 
-    // Usuário especial 'ieen' começa com saldo de R$ 99999
-    if (prompt("Digite o nome de usuário:") === "ieen") {
-        balance = 99999;
-        profilePic.innerText = "I";
-    } else {
-        profilePic.innerText = "U";
-    }
+    // Função de login simulado
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
-    // Função para atualizar a exibição do saldo
-    function updateBalanceDisplay() {
-        document.getElementById('balance').innerText = balance.toFixed(2);
-    }
+        if (username && password) {
+            loggedIn = true;
+            userName = username;
 
-    // Função para adicionar entrada ao log de ações
-    function addLogEntry(message) {
-        const entry = document.createElement('div');
-        entry.className = 'log-entry';
-        entry.textContent = message;
-        logContainer.appendChild(entry);
-        logContainer.scrollTop = logContainer.scrollHeight;
-    }
+            // Define o saldo inicial com base no usuário
+            balance = (username.toLowerCase() === "ieen") ? 100000 : 100;
 
-    // Função para adicionar R$ 50 ao saldo
-    function addBalance() {
-        balance += 50;
-        updateBalanceDisplay();
-        addLogEntry('Você depositou R$ 50.');
-    }
+            // Esconde o login e mostra o banco
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('bank').classList.remove('hidden');
 
-    // Função para gastar R$ 20
-    function spendBalance() {
-        if (balance >= 20) {
-            balance -= 20;
-            updateBalanceDisplay();
-            addLogEntry('Você gastou R$ 20.');
+            // Exibe o nome e saldo do usuário
+            document.getElementById('user-name').innerText = userName;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+
+            // Inicia o intervalo para gerar recompensas
+            startRewardInterval();
         } else {
-            addLogEntry('Saldo insuficiente para gastar R$ 20.');
+            alert('Por favor, insira um nome de usuário e senha!');
         }
     }
 
-    // Atualização inicial do saldo
-    updateBalanceDisplay();
+    // Função para logout
+    function logout() {
+        loggedIn = false;
+        balance = 0;
+        document.getElementById('login').classList.remove('hidden');
+        document.getElementById('bank').classList.add('hidden');
+
+        // Para o intervalo de recompensas
+        clearInterval(rewardInterval);
+    }
+
+    // Função para adicionar ao saldo
+    function addBalance() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        if (amount > 0) {
+            balance += amount;
+            document.getElementById('balance').innerText = balance.toFixed(2);
+        } else {
+            alert('Por favor, insira um valor válido para adicionar!');
+        }
+    }
+
+    // Função para mudar a foto de perfil
+    function changeProfilePic() {
+        const file = document.getElementById('profile-pic').files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-img').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Função para iniciar o intervalo de recompensas
+    function startRewardInterval() {
+        rewardInterval = setInterval(() => {
+            const rewardAmount = Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+            document.getElementById('reward-amount').innerText = rewardAmount;
+            document.getElementById('reward').classList.remove('hidden');
+        }, 10000);
+    }
+
+    // Função para coletar a recompensa
+    function collectReward() {
+        const rewardAmount = parseFloat(document.getElementById('reward-amount').innerText);
+        balance += rewardAmount;
+        document.getElementById('balance').innerText = balance.toFixed(2);
+        document.getElementById('reward').classList.add('hidden');
+    }
 </script>
 
 </body>
