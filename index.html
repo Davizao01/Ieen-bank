@@ -3,66 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código Aleatório</title>
+    <title>Flash de Cores Aleatórias</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
-            background-color: #ececec;
-            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
+            text-align: center;
         }
 
         h1 {
             color: #333;
         }
 
-        p {
-            font-size: 20px;
-            color: #555;
-        }
-
         button {
-            padding: 15px 30px;
+            padding: 15px 40px;
             font-size: 18px;
-            margin-top: 20px;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            margin-top: 20px;
             transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            .message {
+                font-size: 20px;
+            }
+            button {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Bem-vindo ao Código Aleatório!</h1>
-    <p>Este é um site com conteúdo aleatório. Clique no botão abaixo para ver algo novo!</p>
-
-    <button onclick="changeContent()">Clique Aqui!</button>
+    <div>
+        <h1>Flash de Cores Aleatórias</h1>
+        <button onclick="changeBackground()">Clique para mudar a cor!</button>
+        <div class="message" id="message"></div>
+    </div>
 
     <script>
-        function changeContent() {
-            const messages = [
-                "Você descobriu um segredo! 👀",
-                "O código mudou, agora está diferente! 🔄",
-                "Você é ótimo em clicar! 🎉",
-                "Não pare de interagir, o código está crescendo! 🌱",
-                "Você encontrou um novo caminho! ➡️"
-            ];
+        function changeBackground() {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#F0E130', '#8E44AD'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
 
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-
-            document.querySelector('p').textContent = randomMessage;
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = `A cor agora é: ${randomColor}`;
         }
     </script>
 
