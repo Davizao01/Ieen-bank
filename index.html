@@ -3,227 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Mega Complexo</title>
+    <title>Random Page</title>
     <style>
-        /* Reset and Basic Layout */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
             flex-direction: column;
-            overflow: hidden;
         }
+
         h1 {
             color: #34495e;
-            text-align: center;
             font-size: 3em;
-            animation: fadeIn 3s ease-out;
-            margin-bottom: 30px;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            margin-bottom: 20px;
         }
 
-        /* Card Container */
-        .card-container {
-            display: flex;
-            justify-content: space-around;
-            width: 90%;
-            max-width: 1200px;
-            margin-top: 30px;
-            animation: slideIn 1s ease-out;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        /* Card Styling */
-        .card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .container {
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 250px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        .card h2 {
-            color: #3498db;
-        }
-
-        button {
-            padding: 12px 24px;
-            margin-top: 20px;
-            font-size: 16px;
-            background-color: #2980b9;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #1c5984;
-        }
-
-        /* Form Styling */
-        .form-container {
-            margin-top: 50px;
-            text-align: center;
-            width: 100%;
-        }
-        .form-container input,
-        .form-container button {
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 8px;
-            border: 2px solid #ccc;
-            margin-top: 10px;
-        }
-        .form-container button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .form-container button:hover {
-            background-color: #c0392b;
-        }
-
-        /* Graph Section */
-        .graph-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 50px;
-        }
-        .graph {
-            width: 48%;
-            height: 300px;
-            background-color: #ecf0f1;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
-        /* Parallax Effect */
-        .parallax {
-            position: relative;
-            background: url('https://via.placeholder.com/1500x1000') no-repeat center center fixed;
-            background-size: cover;
-            height: 500px;
-            width: 100%;
-            animation: parallaxEffect 5s infinite alternate;
+        .button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        @keyframes parallaxEffect {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100px; }
+
+        .button:hover {
+            background: #2980b9;
+        }
+
+        .random-number {
+            margin-top: 20px;
+            font-size: 2em;
+            color: #e74c3c;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>Site Mega Complexo com Animações e Interações</h1>
+    <h1>Welcome to the Random Page!</h1>
 
-    <!-- Parallax Section -->
-    <div class="parallax"></div>
-
-    <!-- Card Container -->
-    <div class="card-container">
-        <div class="card">
-            <h2>Card 1</h2>
-            <p>Card 1 conteúdo</p>
-            <button onclick="alert('Você clicou no Card 1!')">Clique Aqui</button>
-        </div>
-        <div class="card">
-            <h2>Card 2</h2>
-            <p>Card 2 conteúdo</p>
-            <button onclick="alert('Você clicou no Card 2!')">Clique Aqui</button>
-        </div>
-        <div class="card">
-            <h2>Card 3</h2>
-            <p>Card 3 conteúdo</p>
-            <button onclick="alert('Você clicou no Card 3!')">Clique Aqui</button>
-        </div>
+    <div class="container">
+        <button class="button" onclick="generateRandomNumber()">Generate Random Number</button>
+        <div class="random-number" id="random-number"></div>
     </div>
 
-    <!-- Formulario -->
-    <div class="form-container">
-        <h2>Cadastro com Validação</h2>
-        <input type="text" id="username" placeholder="Nome">
-        <input type="email" id="useremail" placeholder="Email">
-        <button onclick="submitForm()">Enviar</button>
-        <div id="formResponse" style="margin-top: 20px;"></div>
-    </div>
-
-    <!-- Gráficos -->
-    <div class="graph-container">
-        <div class="graph" id="graph1"></div>
-        <div class="graph" id="graph2"></div>
+    <div class="footer">
+        <p>Check more projects at <a href="https://www.example.com" target="_blank">My Website</a></p>
     </div>
 
     <script>
-        // Função de envio de formulário com validação
-        function submitForm() {
-            const name = document.getElementById('username').value;
-            const email = document.getElementById('useremail').value;
-            const response = document.getElementById('formResponse');
-            if (name && email) {
-                response.textContent = `Obrigado, ${name}! Seu cadastro foi realizado com sucesso.`;
-                response.style.color = 'green';
-            } else {
-                response.textContent = 'Por favor, preencha todos os campos.';
-                response.style.color = 'red';
-            }
+        function generateRandomNumber() {
+            const randomNumber = Math.floor(Math.random() * 100) + 1;
+            document.getElementById("random-number").textContent = `Random Number: ${randomNumber}`;
         }
-
-        // Gráfico Dinâmico (apenas simulação de visualização)
-        function createGraph(id) {
-            const graphElement = document.getElementById(id);
-            graphElement.style.backgroundColor = '#3498db';
-            graphElement.style.position = 'relative';
-
-            const data = Array.from({ length: 10 }, () => Math.random() * 100);
-            let barWidth = graphElement.offsetWidth / data.length;
-
-            data.forEach((value, index) => {
-                const bar = document.createElement('div');
-                bar.style.height = `${value}%`;
-                bar.style.width = `${barWidth}px`;
-                bar.style.backgroundColor = '#e74c3c';
-                bar.style.position = 'absolute';
-                bar.style.left = `${barWidth * index}px`;
-                graphElement.appendChild(bar);
-            });
-        }
-
-        createGraph('graph1');
-        createGraph('graph2');
     </script>
 
 </body>
