@@ -69,26 +69,12 @@
         }
 
         /* Saldo */
-        .balance {
+        .balance, .donation-balance {
             font-size: 28px;
             font-weight: bold;
             margin: 15px 0;
             color: #fffa65;
             text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Transação de PIX */
-        .pix-container {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .pix-container h3 {
-            font-size: 20px;
-            color: #f3f4f6;
-            margin-bottom: 10px;
         }
 
         /* Caixa de mensagem de confirmação */
@@ -99,6 +85,24 @@
             margin: 10px 0;
             color: white;
             display: none;
+        }
+
+        /* Botões de interação */
+        .interaction-button {
+            background-color: #28a745;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: bold;
+            width: 85%;
+        }
+
+        .interaction-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -117,24 +121,37 @@
         Saldo: R$ <span id="balance">0.00</span>
     </div>
 
-    <!-- Seção de PIX -->
-    <div class="pix-container">
+    <!-- Botão de PIX -->
+    <button class="interaction-button" onclick="togglePix()">Transferir PIX</button>
+    <div id="pix-container" class="interaction-container">
         <h3>Transferência PIX</h3>
         <input type="text" id="pix-name" placeholder="Nome do destinatário">
         <input type="number" id="pix-amount" placeholder="Valor (R$)" min="0">
-        <button onclick="sendPix()">Enviar Pix</button>
+        <button onclick="sendPix()">Enviar PIX</button>
+    </div>
+
+    <!-- Botão de Doação -->
+    <button class="interaction-button" onclick="toggleDonation()">Fazer Doação</button>
+    <div id="donation-container" class="interaction-container">
+        <h3>Doação</h3>
+        <input type="number" id="donation-amount" placeholder="Valor para doar (R$)" min="0">
+        <button onclick="makeDonation()">Doar</button>
+        <div class="donation-balance">
+            Total de Doações: R$ <span id="donation-balance">0.00</span>
+        </div>
     </div>
 
     <button onclick="logout()">Sair</button>
 
-    <!-- Mensagem de confirmação de PIX -->
-    <div id="confirmation-msg" class="confirmation">Transferência concluída com sucesso!</div>
+    <!-- Mensagem de confirmação -->
+    <div id="confirmation-msg" class="confirmation">Operação concluída com sucesso!</div>
 </div>
 
 <script>
     let loggedIn = false;
     let userName = '';
     let balance = 0;
+    let donationBalance = 0;
 
     function login() {
         const username = document.getElementById('username').value;
@@ -158,6 +175,7 @@
 
             document.getElementById('user-name').innerText = userName;
             document.getElementById('balance').innerText = balance.toFixed(2);
+            document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
         } else {
             alert('Preencha o nome de usuário e a senha!');
         }
@@ -166,8 +184,19 @@
     function logout() {
         loggedIn = false;
         balance = 0;
+        donationBalance = 0;
         document.getElementById('login').style.display = 'block';
         document.getElementById('bank').style.display = 'none';
+    }
+
+    function togglePix() {
+        const pixContainer = document.getElementById('pix-container');
+        pixContainer.style.display = pixContainer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleDonation() {
+        const donationContainer = document.getElementById('donation-container');
+        donationContainer.style.display = donationContainer.style.display === 'block' ? 'none' : 'block';
     }
 
     function sendPix() {
@@ -175,30 +204,43 @@
         const pixAmount = parseFloat(document.getElementById('pix-amount').value);
 
         if (!pixName || isNaN(pixAmount) || pixAmount <= 0) {
-            alert('Preencha todos os campos com valores válidos.');
+            alert('Preencha o nome do destinatário e o valor válido!');
             return;
         }
 
         if (pixAmount > balance) {
-            alert('Saldo insuficiente para a transferência.');
+            alert('Saldo insuficiente!');
             return;
         }
 
         balance -= pixAmount;
         document.getElementById('balance').innerText = balance.toFixed(2);
 
-        // Limpar campos e exibir confirmação
-        document.getElementById('pix-name').value = '';
-        document.getElementById('pix-amount').value = '';
-        showConfirmationMessage();
+        document.getElementById('confirmation-msg').style.display = 'block';
+        setTimeout(() => document.getElementById('confirmation-msg').style.display = 'none', 2000);
     }
 
-    function showConfirmationMessage() {
-        const confirmationMsg = document.getElementById('confirmation-msg');
-        confirmationMsg.style.display = 'block';
-        setTimeout(() => {
-            confirmationMsg.style.display = 'none';
-        }, 3000);
+    function makeDonation() {
+        const donationAmount = parseFloat(document.getElementById('donation-amount').value);
+
+        if (isNaN(donationAmount) || donationAmount <= 0) {
+            alert('Preencha o valor da doação!');
+            return;
+        }
+
+        if (donationAmount > balance) {
+            alert('Saldo insuficiente!');
+            return;
+        }
+
+        balance -= donationAmount;
+        donationBalance += donationAmount;
+
+        document.getElementById('balance').innerText = balance.toFixed(2);
+        document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
+
+        document.getElementById('confirmation-msg').style.display = 'block';
+        setTimeout(() => document.getElementById('confirmation-msg').style.display = 'none', 2000);
     }
 </script>
 
