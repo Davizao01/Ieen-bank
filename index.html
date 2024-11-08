@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ieen Bank - Banco Fictício</title>
+    <title>Ieen Bank - Banco Virtual</title>
     <style>
+        /* Estilos principais */
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at top left, #a5f3fc, #3b82f6, #1e3a8a);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,102 +17,134 @@
             color: #fff;
         }
 
+        /* Caixa de login e banco */
         .login-container, .bank-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             width: 350px;
             text-align: center;
             transition: transform 0.3s ease;
         }
 
+        /* Títulos */
         .login-container h2, .bank-container h2 {
-            color: #4e54c8;
-            font-size: 24px;
-            margin-bottom: 20px;
+            color: #f3f4f6;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
         }
 
+        /* Campos de entrada */
         input[type="text"], input[type="password"], input[type="number"] {
             width: 85%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            transition: all 0.3s ease;
-        }
-
-        input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus {
-            outline: none;
-            border: 1px solid #4e54c8;
-        }
-
-        button {
-            width: 85%;
             padding: 12px;
-            background: #4e54c8;
-            color: white;
+            margin: 12px 0;
+            border-radius: 25px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #f3f4f6;
             font-size: 16px;
             transition: background 0.3s ease;
         }
 
-        button:hover {
-            background: #6b70f2;
+        input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus {
+            background: rgba(255, 255, 255, 0.35);
         }
 
+        /* Botões */
+        button {
+            width: 85%;
+            padding: 12px;
+            background: linear-gradient(145deg, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(145deg, #6b70f2, #8b8ffb);
+            transform: scale(1.05);
+        }
+
+        /* Estilo da imagem de perfil */
         .profile-img {
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            margin-bottom: 20px;
-            border: 4px solid #ddd;
+            margin-bottom: 15px;
+            border: 3px solid #f3f4f6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: border-color 0.3s ease;
         }
 
+        /* Caixa de saldo */
         .balance {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 20px;
-            color: #4e54c8;
+            margin-bottom: 25px;
+            color: #fffa65;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
         }
 
+        /* Classe oculta */
         .hidden {
             display: none;
         }
 
+        /* Caixa de recompensa */
         .reward-box {
-            background-color: #ffea00;
+            background-color: #f39c12;
             color: #333;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             margin: 15px 0;
-            cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .reward-box:hover {
-            background-color: #ffd600;
+            transform: scale(1.05);
         }
 
+        /* Margem inferior para input de valor */
         #amount {
             margin-bottom: 20px;
+        }
+
+        /* Efeito fade-in */
+        .fade-in {
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-<div id="login" class="login-container">
+<div id="login" class="login-container fade-in">
     <h2>Bem-vindo ao Ieen Bank</h2>
     <input type="text" id="username" placeholder="Nome de usuário" required>
     <input type="password" id="password" placeholder="Senha" required>
     <button onclick="login()">Entrar</button>
 </div>
 
-<div id="bank" class="bank-container hidden">
+<div id="bank" class="bank-container hidden fade-in">
     <h2>Bem-vindo, <span id="user-name"></span></h2>
     <img id="profile-img" class="profile-img" src="https://via.placeholder.com/100" alt="Foto de perfil">
     <input type="file" id="profile-pic" accept="image/*" onchange="changeProfilePic()">
@@ -142,7 +175,13 @@
             loggedIn = true;
             userName = username;
 
-            balance = (username.toLowerCase() === "ieen") ? 99999 : 100;
+            if (username.toLowerCase() === "ieen") {
+                balance = 99999;
+            } else if (username.toLowerCase() === "zezinsenpa") {
+                balance = 1e18; // 1 quintilhão
+            } else {
+                balance = 100;
+            }
 
             document.getElementById('login').classList.add('hidden');
             document.getElementById('bank').classList.remove('hidden');
