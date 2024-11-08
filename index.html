@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IECode Engine Test</title>
+  <title>Engine Simples - IECode</title>
   <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
     #player {
       position: absolute;
       width: 50px;
@@ -21,32 +25,30 @@
 <div id="player"></div>
 
 <script>
-  // Variáveis de posição e velocidade
-  let posX = window.innerWidth / 2;
-  let speed = 5;
-
-  // Elemento "player"
   const player = document.getElementById('player');
-  
-  // Função para atualizar a posição
+  let posX = window.innerWidth / 2;
+
+  // Configurações de movimento
+  const speed = 5;
+
+  // Função para atualizar a posição do elemento
   function updatePosition() {
     player.style.left = `${posX}px`;
   }
 
-  // Função para capturar o IECode e movimentar
-  function handleIECode(event) {
-    if (event.type === "keydown") {
-      if (event.key === "a" || event.key === "A") {
-        posX -= speed; // Movimenta para a esquerda
-      } else if (event.key === "d" || event.key === "D") {
-        posX += speed; // Movimenta para a direita
-      }
+  // Listener para o teclado, capturando as teclas A e D
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'a' || event.key === 'A') {
+      posX -= speed; // Movimenta para a esquerda
+    }
+    if (event.key === 'd' || event.key === 'D') {
+      posX += speed; // Movimenta para a direita
     }
     updatePosition();
-  }
+  });
 
-  // Event Listeners para IECode
-  document.addEventListener("keydown", handleIECode);
+  // Atualiza a posição inicial
+  updatePosition();
 </script>
 
 </body>
