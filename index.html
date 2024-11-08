@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contador Regressivo</title>
+    <title>Gerador de Cores Aleatórias</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,52 +12,44 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
             background-color: #f0f0f0;
         }
-        .counter {
-            text-align: center;
-            background-color: #3498db;
-            color: white;
-            padding: 50px;
+        h1 {
+            color: #333;
+        }
+        .color-box {
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
             border-radius: 10px;
-            font-size: 40px;
+            transition: background-color 0.3s ease;
         }
         button {
             font-size: 20px;
             padding: 10px 20px;
-            cursor: pointer;
             margin-top: 20px;
-            border: none;
-            background-color: #2980b9;
+            cursor: pointer;
+            background-color: #3498db;
             color: white;
+            border: none;
             border-radius: 5px;
         }
         button:hover {
-            background-color: #1abc9c;
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
 
-    <div class="counter" id="countdown">
-        10
-    </div>
-    <button onclick="startCountdown()">Iniciar Contagem</button>
+    <h1>Gerador de Cores Aleatórias</h1>
+    <div class="color-box" id="colorBox"></div>
+    <button onclick="generateRandomColor()">Gerar Cor Aleatória</button>
 
     <script>
-        let countdownElement = document.getElementById('countdown');
-        let countdownValue = 10;
-        let countdownInterval;
-
-        function startCountdown() {
-            countdownInterval = setInterval(function() {
-                countdownElement.textContent = countdownValue;
-                countdownValue--;
-                if (countdownValue < 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = "Tempo Acabado!";
-                }
-            }, 1000);
+        function generateRandomColor() {
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.getElementById('colorBox').style.backgroundColor = randomColor;
         }
     </script>
 
