@@ -3,103 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Forca</title>
+    <title>Galeria de Imagens Aleatórias</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
         }
-        .game {
-            text-align: center;
+        h1 {
+            color: #333;
         }
-        .word {
-            font-size: 32px;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 80%;
+            margin-top: 20px;
         }
-        .buttons {
-            margin: 20px;
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
         }
-        .buttons button {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        button {
+            padding: 15px 30px;
+            margin-top: 20px;
             background-color: #3498db;
             color: white;
-            border-radius: 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .buttons button:hover {
+        button:hover {
             background-color: #2980b9;
-        }
-        .result {
-            font-size: 24px;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="game">
-        <div class="word" id="wordDisplay">_ _ _ _ _</div>
-        <div class="buttons" id="letterButtons"></div>
-        <div class="result" id="result"></div>
-    </div>
+    <h1>Galeria de Imagens Aleatórias</h1>
+    <div class="gallery" id="gallery"></div>
+    <button onclick="generateGallery()">Gerar Novas Imagens</button>
 
     <script>
-        const words = ["javascript", "html", "css", "react", "node"];
-        let selectedWord = words[Math.floor(Math.random() * words.length)];
-        let guessedWord = Array(selectedWord.length).fill("_");
-        let attempts = 6;
-        const letterButtons = document.getElementById("letterButtons");
-        const wordDisplay = document.getElementById("wordDisplay");
-        const resultDisplay = document.getElementById("result");
+        const gallery = document.getElementById('gallery');
 
-        function updateDisplay() {
-            wordDisplay.textContent = guessedWord.join(" ");
-        }
+        function generateGallery() {
+            gallery.innerHTML = ''; // Limpar a galeria existente
 
-        function checkLetter(letter) {
-            let correctGuess = false;
-            for (let i = 0; i < selectedWord.length; i++) {
-                if (selectedWord[i] === letter) {
-                    guessedWord[i] = letter;
-                    correctGuess = true;
-                }
-            }
-            if (!correctGuess) {
-                attempts--;
-            }
-            updateDisplay();
-            if (guessedWord.join("") === selectedWord) {
-                resultDisplay.textContent = "Você venceu!";
-            } else if (attempts <= 0) {
-                resultDisplay.textContent = "Você perdeu! A palavra era " + selectedWord;
+            for (let i = 0; i < 12; i++) {
+                const img = document.createElement('img');
+                img.src = `https://picsum.photos/300?random=${Math.random()}`;
+                img.alt = 'Imagem Aleatória';
+                gallery.appendChild(img);
             }
         }
 
-        function generateLetterButtons() {
-            const alphabet = "abcdefghijklmnopqrstuvwxyz";
-            letterButtons.innerHTML = "";
-            for (let letter of alphabet) {
-                const button = document.createElement("button");
-                button.textContent = letter;
-                button.onclick = function() {
-                    checkLetter(letter);
-                    button.disabled = true;
-                };
-                letterButtons.appendChild(button);
-            }
-        }
-
-        generateLetterButtons();
-        updateDisplay();
+        // Gerar imagens assim que a página carregar
+        generateGallery();
     </script>
 
 </body>
