@@ -3,368 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ieen Bank - Banco Virtual</title>
+    <title>Caixa de Dinheiro</title>
     <style>
-        /* Estilos principais */
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #004b6d, #005a8d, #006ea7);
+            font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
-            color: #fff;
         }
 
-        /* Caixa de login e banco */
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-            width: 400px;
-            text-align: center;
+        .money-box {
+            margin: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 5px;
         }
 
-        /* Títulos */
-        h2 {
-            color: #f3f4f6;
-            font-size: 28px;
-            font-weight: bold;
+        .money-box:hover {
+            background-color: #218838;
+        }
+
+        .balance {
+            font-size: 24px;
             margin-bottom: 20px;
         }
 
-        /* Campos de entrada */
-        input[type="text"], input[type="password"], input[type="number"] {
-            width: 85%;
-            padding: 12px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            outline: none;
-            background: rgba(255, 255, 255, 0.3);
-            color: #333;
-            font-size: 16px;
-        }
-
-        /* Botões */
-        button {
-            width: 90%;
-            padding: 14px;
-            background: #0078d4;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            background: #006bb3;
-        }
-
-        /* Saldo */
-        .balance, .donation-balance {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
-            color: #f3f4f6;
-        }
-
-        /* Caixa de mensagem de confirmação */
-        .confirmation {
-            background-color: #28a745;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            color: white;
+        .confirmation-msg {
             display: none;
-        }
-
-        /* Botões de interação */
-        .interaction-button {
-            background-color: #28a745;
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 25px;
-            font-weight: bold;
-            width: 85%;
-        }
-
-        .interaction-container {
-            display: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        /* Caixa de Dinheiro */
-        .money-box {
-            width: 50px;
-            height: 50px;
-            background-color: gold;
-            border-radius: 10px;
-            display: inline-block;
-            margin: 10px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .money-box img {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-        }
-
-        /* Contêiner de caixas de dinheiro */
-        .money-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        /* Foto de Perfil */
-        .profile-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            background-color: #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .upload-btn {
-            margin-top: 10px;
-            background-color: #28a745;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .upload-btn:hover {
-            background-color: #218838;
+            color: green;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-<div id="login" class="container">
-    <h2>Bem-vindo ao Ieen Bank</h2>
-    <input type="text" id="username" placeholder="Nome de usuário" required>
-    <input type="password" id="password" placeholder="Senha" required>
-    <button onclick="login()">Entrar</button>
-</div>
-
-<div id="bank" class="container" style="display: none;">
-    <h2>Bem-vindo, <span id="user-name"></span></h2>
-
-    <!-- Foto de perfil -->
-    <div class="profile-container">
-        <div id="profile-pic" class="profile-pic">
-            <img id="profile-img" src="" alt="Foto de Perfil">
-        </div>
-    </div>
-    <input type="file" id="profile-upload" style="display: none;" onchange="changeProfilePic()">
-    <button class="upload-btn" onclick="document.getElementById('profile-upload').click()">Alterar Foto de Perfil</button>
-
     <div class="balance">
         Saldo: R$ <span id="balance">0.00</span>
     </div>
 
-    <!-- Botão de PIX -->
-    <button class="interaction-button" onclick="togglePix()">Transferir PIX</button>
-    <div id="pix-container" class="interaction-container">
-        <h3>Transferência PIX</h3>
-        <input type="text" id="pix-name" placeholder="Nome do destinatário">
-        <input type="number" id="pix-amount" placeholder="Valor (R$)" min="0">
-        <button onclick="sendPix()">Enviar PIX</button>
+    <button class="money-box" id="money-box" onclick="collectMoney()">
+        Clique aqui para ganhar dinheiro
+    </button>
+
+    <div class="confirmation-msg" id="confirmation-msg">
+        Dinheiro adicionado com sucesso!
     </div>
 
-    <!-- Botão de Doação -->
-    <button class="interaction-button" onclick="toggleDonation()">Fazer Doação</button>
-    <div id="donation-container" class="interaction-container">
-        <h3>Doação</h3>
-        <input type="number" id="donation-amount" placeholder="Valor para doar (R$)" min="0">
-        <button onclick="makeDonation()">Doar</button>
-        <div class="donation-balance">
-            Total de Doações: R$ <span id="donation-balance">0.00</span>
-        </div>
-    </div>
+    <script>
+        let balance = 0;
 
-    <!-- Contêiner de Caixas de Dinheiro -->
-    <div class="money-container" id="money-container"></div>
-
-    <button onclick="logout()">Sair</button>
-
-    <!-- Mensagem de confirmação -->
-    <div id="confirmation-msg" class="confirmation">Operação concluída com sucesso!</div>
-</div>
-
-<script>
-    let loggedIn = false;
-    let userName = '';
-    let balance = 0;
-    let donationBalance = 0;
-
-    function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        if (username && password) {
-            loggedIn = true;
-            userName = username;
-
-            // Saldos iniciais
-            if (username.toLowerCase() === "ieen") {
-                balance = 99999;
-            } else if (username.toLowerCase() === "zezinsenpa") {
-                balance = 1e18; // 1 quintilhão
-            } else {
-                balance = 100;
-            }
-
-            document.getElementById('login').style.display = 'none';
-            document.getElementById('bank').style.display = 'block';
-
-            document.getElementById('user-name').innerText = userName;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
-
-            // Iniciar a geração de caixas de dinheiro
-            setInterval(createMoneyBox, 5000); // Cria uma caixa de dinheiro a cada 5 segundos
-        } else {
-            alert('Preencha o nome de usuário e a senha!');
-        }
-    }
-
-    function logout() {
-        loggedIn = false;
-        balance = 0;
-        donationBalance = 0;
-        document.getElementById('login').style.display = 'block';
-        document.getElementById('bank').style.display = 'none';
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('profile-img').src = '';
-    }
-
-    function togglePix() {
-        const pixContainer = document.getElementById('pix-container');
-        pixContainer.style.display = pixContainer.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function sendPix() {
-        const name = document.getElementById('pix-name').value;
-        const amount = parseFloat(document.getElementById('pix-amount').value);
-
-        if (name && !isNaN(amount) && amount > 0 && amount <= balance) {
-            balance -= amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('confirmation-msg').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('confirmation-msg').style.display = 'none';
-            }, 2000);
-        } else {
-            alert('Valor ou dados inválidos!');
-        }
-    }
-
-    function toggleDonation() {
-        const donationContainer = document.getElementById('donation-container');
-        donationContainer.style.display = donationContainer.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function makeDonation() {
-        const amount = parseFloat(document.getElementById('donation-amount').value);
-
-        if (!isNaN(amount) && amount > 0 && amount <= balance) {
-            balance -= amount;
-            donationBalance += amount;
-            document.getElementById('balance').innerText = balance.toFixed(2);
-            document.getElementById('donation-balance').innerText = donationBalance.toFixed(2);
-            document.getElementById('confirmation-msg').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('confirmation-msg').style.display = 'none';
-            }, 2000);
-        } else {
-            alert('Valor inválido ou insuficiente!');
-        }
-    }
-
-    function changeProfilePic() {
-        const fileInput = document.getElementById('profile-upload');
-        const file = fileInput.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('profile-img').src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function createMoneyBox() {
-        const moneyContainer = document.getElementById('money-container');
-        const box = document.createElement('div');
-        box.classList.add('money-box');
-        box.onclick = () => {
+        function collectMoney() {
             // Geração de valor aleatório com base na probabilidade
             const value = generateMoneyValue();
             balance += value;
             document.getElementById('balance').innerText = balance.toFixed(2);
-            box.style.display = 'none'; // A caixa desaparece após ser clicada
-        };
 
-        const img = document.createElement('img');
-        img.src = 'https://via.placeholder.com/50x50.png?text=R$';
-        box.appendChild(img);
-        moneyContainer.appendChild(box);
-    }
+            // Exibe a mensagem de confirmação
+            document.getElementById('confirmation-msg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation-msg').style.display = 'none';
+            }, 2000);
 
-    function generateMoneyValue() {
-        // Probabilidade de gerar valores baixos é maior
-        const rand = Math.random();
-        let value = 0;
-
-        if (rand < 0.5) {
-            value = 0.50; // 50% chance
-        } else if (rand < 0.8) {
-            value = 10; // 30% chance
-        } else if (rand < 0.95) {
-            value = 100; // 15% chance
-        } else {
-            value = 1000; // 5% chance
+            // Gera um novo botão com valor para o próximo clique
+            const moneyBox = document.getElementById('money-box');
+            moneyBox.innerText = `Clique aqui para ganhar R$ ${value.toFixed(2)}`;
         }
 
-        return value;
-    }
-</script>
+        function generateMoneyValue() {
+            // Probabilidade de gerar valores baixos é maior
+            const rand = Math.random();
+            let value = 0;
+
+            if (rand < 0.5) {
+                value = 0.50; // 50% chance
+            } else if (rand < 0.8) {
+                value = 10; // 30% chance
+            } else if (rand < 0.95) {
+                value = 100; // 15% chance
+            } else {
+                value = 1000; // 5% chance
+            }
+
+            return value;
+        }
+    </script>
 
 </body>
 </html>
