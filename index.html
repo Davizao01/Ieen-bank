@@ -3,83 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Page</title>
+    <title>Dynamic Quantum UI</title>
     <style>
+        /* Global Styling */
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            flex-direction: column;
+            font-family: 'Arial', sans-serif;
         }
 
+        /* Title Styling */
         h1 {
-            color: #34495e;
-            font-size: 3em;
+            font-size: 3.5rem;
             margin-bottom: 20px;
-        }
-
-        .container {
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 12px;
+            letter-spacing: 2px;
             text-align: center;
+            text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background: #3498db;
+        /* Button Styles */
+        .quantum-btn {
+            background: #8e44ad;
+            border: 3px solid #f1c40f;
             color: white;
-            border: none;
-            border-radius: 8px;
+            font-size: 1.6rem;
+            padding: 18px 40px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .button:hover {
-            background: #2980b9;
+        .quantum-btn:hover {
+            background: #f1c40f;
+            color: #8e44ad;
+            transform: translateY(-5px);
+            box-shadow: 0px 18px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .random-number {
-            margin-top: 20px;
-            font-size: 2em;
-            color: #e74c3c;
+        .quantum-btn:active {
+            background: #f39c12;
+            transform: translateY(2px);
         }
 
+        /* Content Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Result Display */
+        .result {
+            margin-top: 30px;
+            font-size: 2.5rem;
+            color: #f39c12;
+            letter-spacing: 1px;
+        }
+
+        /* Floating Elements */
+        .floating {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: floating 2s infinite ease-in-out;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            50% {
+                transform: translateY(20px) translateX(-50%);
+            }
+            100% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+        }
+
+        /* Footer Section */
         .footer {
-            margin-top: 40px;
-            font-size: 16px;
-            color: #7f8c8d;
+            position: absolute;
+            bottom: 10px;
+            color: #bdc3c7;
+            font-size: 1rem;
+            text-align: center;
+            animation: fadeIn 3s ease-in-out infinite;
         }
 
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .quantum-btn {
+                font-size: 1.4rem;
+                padding: 15px 30px;
+            }
+
+            .result {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Welcome to the Random Page!</h1>
+    <h1>Welcome to Quantum UI!</h1>
 
     <div class="container">
-        <button class="button" onclick="generateRandomNumber()">Generate Random Number</button>
-        <div class="random-number" id="random-number"></div>
+        <button class="quantum-btn" onclick="generateRandomData()">Activate Quantum Button</button>
+        <div class="result" id="result">Your Result Will Appear Here</div>
+    </div>
+
+    <div class="floating">
+        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="6" x2="12" y2="18"></line>
+            <line x1="6" y1="12" x2="18" y2="12"></line>
+        </svg>
     </div>
 
     <div class="footer">
-        <p>Check more projects at <a href="https://www.example.com" target="_blank">My Website</a></p>
+        <p>Explore more at <a href="https://www.example.com" target="_blank">My Website</a></p>
     </div>
 
     <script>
-        function generateRandomNumber() {
-            const randomNumber = Math.floor(Math.random() * 100) + 1;
-            document.getElementById("random-number").textContent = `Random Number: ${randomNumber}`;
+        function generateRandomData() {
+            const randomValue = Math.random();
+            let message;
+
+            if (randomValue < 0.2) {
+                message = 'Quantum Flux Detected!';
+            } else if (randomValue < 0.5) {
+                message = 'Particles Disrupted!';
+            } else if (randomValue < 0.8) {
+                message = 'Time-Space Continuum Shifted!';
+            } else {
+                message = 'Supernova Event Initiated!';
+            }
+
+            document.getElementById("result").textContent = message;
         }
     </script>
 
