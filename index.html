@@ -3,59 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galáxia em Movimento</title>
+    <title>Jogo da Forca</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            overflow: hidden;
-            background-color: #000;
+            background-color: #f0f0f0;
         }
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle 1s infinite alternate;
+        .game {
+            text-align: center;
         }
-        @keyframes twinkle {
-            0% {
-                opacity: 0.7;
-            }
-            100% {
-                opacity: 1;
-            }
+        .word {
+            font-size: 32px;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            margin: 20px;
+        }
+        .buttons button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+        }
+        .buttons button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
+    <div class="game">
+        <div class="word" id="wordDisplay">_ _ _ _ _</div>
+        <div class="buttons" id="letterButtons"></div>
+        <div class="result" id="result"></div>
+    </div>
+
     <script>
-        function createStars() {
-            const numStars = 200;
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
+        const words = ["javascript", "html", "css", "react", "node"];
+        let selectedWord = words[Math.floor(Math.random() * words.length)];
+        let guessedWord = Array(selectedWord.length).fill("_");
+        let attempts = 6;
+        const letterButtons = document.getElementById("letterButtons");
+        const wordDisplay = document.getElementById("wordDisplay");
+        const resultDisplay = document.getElementById("result");
 
-                // Random position and size
-                const size = Math.random() * 2 + 1;
-                const x = Math.random() * window.innerWidth;
-                const y = Math.random() * window.innerHeight;
+        function updateDisplay() {
+            wordDisplay.textContent = guessedWord.join(" ");
+        }
 
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${x}px`;
-                star.style.top = `${y}px`;
-
-                // Random animation speed
-                const animationDuration = Math.random() * 2 + 1;
-                star.style.animationDuration = `${animationDuration}s`;
-
-                document.body.appendChild(star);
+        function checkLetter(letter) {
+            let correctGuess = false;
+            for (let i = 0; i < selectedWord.length; i++) {
+                if (selectedWord[i] === letter) {
+                    guessedWord[i] = letter;
+                    correctGuess = true;
+                }
+            }
+            if (!correctGuess) {
+                attempts--;
+            }
+            updateDisplay();
+            if (guessedWord.join("") === selectedWord) {
+                resultDisplay.textContent = "Você venceu!";
+            } else if (attempts <= 0) {
+                resultDisplay.textContent = "Você perdeu! A palavra era " + selectedWord;
             }
         }
 
-        createStars();
+        function generateLetterButtons() {
+            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            letterButtons.innerHTML = "";
+            for (let letter of alphabet) {
+                const button = document.createElement("button");
+                button.textContent = letter;
+                button.onclick = function() {
+                    checkLetter(letter);
+                    button.disabled = true;
+                };
+                letterButtons.appendChild(button);
+            }
+        }
+
+        generateLetterButtons();
+        updateDisplay();
     </script>
 
 </body>
