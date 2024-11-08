@@ -3,115 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Simples</title>
+    <title>Galáxia em Movimento</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            overflow: hidden;
+            background-color: #000;
         }
-        .calculator {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
         }
-        .calculator input {
-            width: 220px;
-            height: 40px;
-            font-size: 24px;
-            text-align: right;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 5px;
-        }
-        .calculator button {
-            width: 50px;
-            height: 50px;
-            font-size: 18px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #3498db;
-            color: #fff;
-        }
-        .calculator button:hover {
-            background-color: #2980b9;
-        }
-        .calculator button:active {
-            background-color: #1c6ea4;
+        @keyframes twinkle {
+            0% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="calculator">
-        <input type="text" id="result" disabled>
-        <div>
-            <button onclick="appendNumber(7)">7</button>
-            <button onclick="appendNumber(8)">8</button>
-            <button onclick="appendNumber(9)">9</button>
-            <button onclick="appendOperator('+')">+</button>
-        </div>
-        <div>
-            <button onclick="appendNumber(4)">4</button>
-            <button onclick="appendNumber(5)">5</button>
-            <button onclick="appendNumber(6)">6</button>
-            <button onclick="appendOperator('-')">-</button>
-        </div>
-        <div>
-            <button onclick="appendNumber(1)">1</button>
-            <button onclick="appendNumber(2)">2</button>
-            <button onclick="appendNumber(3)">3</button>
-            <button onclick="appendOperator('*')">*</button>
-        </div>
-        <div>
-            <button onclick="appendNumber(0)">0</button>
-            <button onclick="clearResult()">C</button>
-            <button onclick="calculateResult()">=</button>
-            <button onclick="appendOperator('/')">/</button>
-        </div>
-    </div>
-
     <script>
-        let currentInput = '';
-        let operator = '';
-        
-        function appendNumber(number) {
-            currentInput += number;
-            document.getElementById('result').value = currentInput;
-        }
+        function createStars() {
+            const numStars = 200;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
 
-        function appendOperator(op) {
-            if (currentInput !== '') {
-                operator = op;
-                currentInput += op;
-                document.getElementById('result').value = currentInput;
+                // Random position and size
+                const size = Math.random() * 2 + 1;
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+
+                // Random animation speed
+                const animationDuration = Math.random() * 2 + 1;
+                star.style.animationDuration = `${animationDuration}s`;
+
+                document.body.appendChild(star);
             }
         }
 
-        function clearResult() {
-            currentInput = '';
-            operator = '';
-            document.getElementById('result').value = '';
-        }
-
-        function calculateResult() {
-            try {
-                let result = eval(currentInput);
-                document.getElementById('result').value = result;
-                currentInput = result.toString();
-            } catch (e) {
-                document.getElementById('result').value = 'Error';
-                currentInput = '';
-            }
-        }
+        createStars();
     </script>
 
 </body>
